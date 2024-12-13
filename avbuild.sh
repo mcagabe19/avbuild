@@ -1799,7 +1799,7 @@ build_all(){
     [ -z "${CONFIGURE/*--enable-nonfree*/}" ] && LICENSE=nonfree
     LICENSE_FILE=COPYING.$LICENSE
     local INSTALL_DIR=${INSTALL_DIR0:-${d##build_}}
-    [ "${os:0:7}" == "android" ] && echo "STL = c++_static" >> build_sdk-android-arm64-clang/ffbuild/config.mak
+    [ "${os:0:7}" == "android" ] && echo "STL = c++_static" >> ffmpeg-7.1/ffbuild/library.mak
     echo building $INSTALL_DIR...
     build1
     cd $THIS_DIR
