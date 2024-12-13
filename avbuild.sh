@@ -1582,12 +1582,12 @@ config1(){
   EXTRA_LDSOFLAGS=$(trim2 $EXTRA_LDSOFLAGS)
   EXTRALIBS=$(trim2 $EXTRALIBS)
   test -n "$EXTRA_CFLAGS" && TOOLCHAIN_OPT+=" --extra-cflags=\"$EXTRA_CFLAGS\""
-  test -n "$EXTRA_LDFLAGS" && TOOLCHAIN_OPT+=" --extra-ldflags=\"$EXTRA_LDFLAGS\""
+  test -n "$EXTRA_LDFLAGS" && TOOLCHAIN_OPT+=" --extra-ldflags=\"-Wl,-Bsymbolic $EXTRA_LDFLAGS\""
   test -n "$EXTRA_LDSOFLAGS" && TOOLCHAIN_OPT+=" --extra-ldsoflags=\"$EXTRA_LDSOFLAGS\""
-  test -n "$EXTRALIBS" && TOOLCHAIN_OPT+=" --extra-libs=\"$EXTRALIBS\""
+  test -n "$EXTRALIBS" && TOOLCHAIN_OPT+=" --extra-libs=\"-static-libstdc++ $EXTRALIBS\""
   echo INSTALL_DIR: $INSTALL_DIR
   is_libav || FEATURE_OPT+=" --disable-postproc"
-  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-pic --extra-ldflags="-Wl,-Bsymbolic" --extra-ldexeflags="-pie" --extra-libs="-static-libstdc++" --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
+  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --extra-ldexeflags="-pie" --enable-static --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
   : ${NO_ENC=false}
     CONFIGURE+=" $DEC_OPT $DEMUX_OPT $ENC_OPT $MUX_OPT $FILTER_OPT $PROT_OPT"
   CONFIGURE=`trim2 $CONFIGURE`
