@@ -1587,7 +1587,7 @@ config1(){
   test -n "$EXTRALIBS" && TOOLCHAIN_OPT+=" --extra-libs=\"$EXTRALIBS\""
   echo INSTALL_DIR: $INSTALL_DIR
   is_libav || FEATURE_OPT+=" --disable-postproc"
-  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-pic --extra-ldflags="-Wl,-Bsymbolic" --extra-ldexeflags="-pie" --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
+  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-pic --extra-ldflags="-Wl,-Bsymbolic" --extra-ldexeflags="-pie" --extra-libs="-static-libgcc -static-libstdc++" --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
   : ${NO_ENC=false}
     CONFIGURE+=" $DEC_OPT $DEMUX_OPT $ENC_OPT $MUX_OPT $FILTER_OPT $PROT_OPT"
   CONFIGURE=`trim2 $CONFIGURE`
