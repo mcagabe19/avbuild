@@ -257,12 +257,6 @@ jobs:
         config: [lite]
     steps:
     - uses: actions/checkout@v4
-    - name: 'Restore sysroot cache'
-      id: sysroot-cache
-      uses: actions/cache@v4
-      with:
-        path: /tmp/sysroot
-        key: sysroot-${{ env.TARGET_OS }}-${{ vars.LINUX_SYSROOT_ID }}
     - name: Create Build Environment
       shell: bash
       env:
