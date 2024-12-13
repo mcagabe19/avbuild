@@ -36,7 +36,8 @@ test -f $USER_CONFIG &&  . $USER_CONFIG
 # TODO: use USER_OPT only
 # set NDK_ROOT if compile for android
 : ${NDK_ROOT:="$ANDROID_NDK"}
-: ${LIB_OPT:="--enable-shared"}
+# : ${LIB_OPT:="--enable-shared"}
+: ${LIB_OPT:="--disable-shared"}
 #: ${FEATURE_OPT:="--enable-hwaccels"}
 : ${DEBUG_OPT:="--disable-debug"}
 : ${FORCE_LTO:=false}
@@ -1586,12 +1587,10 @@ config1(){
   test -n "$EXTRALIBS" && TOOLCHAIN_OPT+=" --extra-libs=\"$EXTRALIBS\""
   echo INSTALL_DIR: $INSTALL_DIR
   is_libav || FEATURE_OPT+=" --disable-postproc"
-  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
+  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-pic --extra-ldflags="-Wl,-Bsymbolic" --extra-ldexeflags="-pie" --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
   : ${NO_ENC=false}
     CONFIGURE+=" $DEC_OPT $DEMUX_OPT $ENC_OPT $MUX_OPT $FILTER_OPT $PROT_OPT"
   CONFIGURE=`trim2 $CONFIGURE`
-  # http://ffmpeg.org/platform.html
-  # static: --enable-pic --extra-ldflags="-Wl,-Bsymbolic" --extra-ldexeflags="-pie"
 #set +x
 #exec 2>&3 3>&-
   local BDIR=$BUILD_DIR
