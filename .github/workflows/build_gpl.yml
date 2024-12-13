@@ -1,9 +1,7 @@
 name: Build GPL
 
 on:
-  push:
-  schedule:
-    - cron: '0 12 * * 0'
+  workflow_dispatch:
 
 env:
 #  if: (github.event_name == 'schedule')
