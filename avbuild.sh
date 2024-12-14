@@ -1690,7 +1690,7 @@ incdir=\${prefix}/include
 EOF
   [ -f .env.sh ] && . .env.sh
   ## https://github.com/ninja-build/ninja/pull/1224
-  time (make -j${JOBS:-`getconf _NPROCESSORS_ONLN`} install prefix="$THIS_DIR/$INSTALL_DIR" && {
+  time (make V=1 -j${JOBS:-`getconf _NPROCESSORS_ONLN`} install prefix="$THIS_DIR/$INSTALL_DIR" && {
       cp -af config.txt $THIS_DIR/$INSTALL_DIR
       cp -af $FFBUILD/config.log $THIS_DIR/$INSTALL_DIR
       # wolfssl. TODO: mfx
