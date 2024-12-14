@@ -1583,8 +1583,8 @@ config1(){
   EXTRALIBS=$(trim2 $EXTRALIBS)
   test -n "$EXTRA_CFLAGS" && TOOLCHAIN_OPT+=" --extra-cflags=\"$EXTRA_CFLAGS\""
   test -n "$EXTRA_LDFLAGS" && TOOLCHAIN_OPT+=" --extra-ldflags=\"-static-libstdc++ -Wl,-Bsymbolic $EXTRA_LDFLAGS\""
-  test -n "$EXTRA_LDSOFLAGS" && TOOLCHAIN_OPT+=" --extra-ldsoflags=\"$EXTRA_LDSOFLAGS\""
-  test -n "$EXTRALIBS" && TOOLCHAIN_OPT+=" --extra-libs=\"-static-libstdc++ $EXTRALIBS\""
+  test -n "$EXTRA_LDSOFLAGS" && TOOLCHAIN_OPT+=" --extra-ldsoflags=\"-static-libstdc++ $EXTRA_LDSOFLAGS\""
+  test -n "$EXTRALIBS" && TOOLCHAIN_OPT+="--extra-libs=\"$EXTRALIBS\""
   echo INSTALL_DIR: $INSTALL_DIR
   is_libav || FEATURE_OPT+=" --disable-postproc"
   local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-static --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
