@@ -979,9 +979,9 @@ use armv6t2 or -mthumb-interwork: https://gcc.gnu.org/onlinedocs/gcc-4.5.3/gcc/A
   [ -n "$ld_lld" ] && {
     TRY_FIX_CORTEX_A8=false
     TOOLCHAIN_OPT+=" --strip=$LLVM_STRIP" # https://github.com/android/ndk/issues/1148  TODO: add in use_llvm_binutils if llvm-strip works for other platforms
-    LFLAGS_CLANG+=" -fuse-ld=lld -rtlib=compiler-rt" # use compiler-rt instead of default libgcc.a so -gcc-toolchain is not required
+    LFLAGS_CLANG+=" -static-libstdc++ -fuse-ld=lld -rtlib=compiler-rt" # use compiler-rt instead of default libgcc.a so -gcc-toolchain is not required
   } || {
-    LFLAGS_CLANG+=" -gcc-toolchain \$NDK_ROOT/$ANDROID_GCC_DIR_REL" # ld from gcc toolchain. TODO: lld?
+    LFLAGS_CLANG+=" -static-libstdc++ -gcc-toolchain \$NDK_ROOT/$ANDROID_GCC_DIR_REL" # ld from gcc toolchain. TODO: lld?
   }
   $TRY_FIX_CORTEX_A8 && EXTRA_LDFLAGS+=" -Wl,--fix-cortex-a8"
   $FFGIT || [ "$ANDROID_ARCH" == "arm" ] && [[ $FFMAJOR <  4 ]] && CFLAGS_CLANG="-fno-integrated-as -gcc-toolchain \$NDK_ROOT/$ANDROID_GCC_DIR_REL $CFLAGS_CLANG" # Disable integrated-as for better compatibility, but need as from gcc toolchain. from ndk cmake
@@ -1581,10 +1581,10 @@ config1(){
   EXTRA_LDFLAGS=$(trim2 $EXTRA_LDFLAGS)
   EXTRA_LDSOFLAGS=$(trim2 $EXTRA_LDSOFLAGS)
   EXTRALIBS=$(trim2 $EXTRALIBS)
-  test -n "$EXTRA_CFLAGS" && TOOLCHAIN_OPT+=" --extra-cflags=\"-DANDROID_STL=c++_static $EXTRA_CFLAGS\""
-  test -n "$EXTRA_LDFLAGS" && TOOLCHAIN_OPT+=" --extra-ldflags=\"-static-libstdc++ -lc++_shared -Wl,-Bsymbolic $EXTRA_LDFLAGS\""
-  test -n "$EXTRA_LDSOFLAGS" && TOOLCHAIN_OPT+=" --extra-ldsoflags=\"-static-libstdc++ -lc++_shared $EXTRA_LDSOFLAGS\""
-  test -n "$EXTRALIBS" && TOOLCHAIN_OPT+="--extra-libs=\-lc++_shared -static-libstdc++ $EXTRALIBS\""
+  test -n "$EXTRA_CFLAGS" && TOOLCHAIN_OPT+=" --extra-cflags=\"$EXTRA_CFLAGS\""
+  test -n "$EXTRA_LDFLAGS" && TOOLCHAIN_OPT+=" --extra-ldflags=\"-Wl,-Bsymbolic $EXTRA_LDFLAGS\""
+  test -n "$EXTRA_LDSOFLAGS" && TOOLCHAIN_OPT+=" --extra-ldsoflags=\"$EXTRA_LDSOFLAGS\""
+  test -n "$EXTRALIBS" && TOOLCHAIN_OPT+="--extra-libs=\"$EXTRALIBS\""
   echo INSTALL_DIR: $INSTALL_DIR
   is_libav || FEATURE_OPT+=" --disable-postproc"
   local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-static --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
