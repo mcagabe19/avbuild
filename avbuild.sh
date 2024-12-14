@@ -1631,6 +1631,7 @@ config1(){
       sed -i $sed_bak -e '/LDFLAGS=/s/-Wl,//g;/LDFLAGS=/s/,/ /g' $CONFIG_MAK
       sed -i $sed_bak -e '/LDFLAGS=/s/--as-needed//g;/LDFLAGS=/s/-z noexecstack//g;/LDFLAGS=/s/--warn-common//g;/LDFLAGS=/s/-rpath-link=.*//g' $CONFIG_MAK
     }
+    [ "${os:0:7}" == "android" ] && sed -i '3i STL = c++_static' "$CONFIG_MAK"
     local MAX_SLICES=`grep '#define MAX_SLICES' $FFSRC/libavcodec/h264dec.h 2>/dev/null`
     if [ -n "$MAX_SLICES" ]; then
       MAX_SLICES=`echo $MAX_SLICES |cut -d ' ' -f 3`
@@ -1799,7 +1800,6 @@ build_all(){
     [ -z "${CONFIGURE/*--enable-nonfree*/}" ] && LICENSE=nonfree
     LICENSE_FILE=COPYING.$LICENSE
     local INSTALL_DIR=${INSTALL_DIR0:-${d##build_}}
-    [ "${os:0:7}" == "android" ] && echo "STL = c++_static" >> ffmpeg-7.1/ffbuild/library.mak
     echo building $INSTALL_DIR...
     build1
     cd $THIS_DIR
