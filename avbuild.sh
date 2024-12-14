@@ -1587,7 +1587,7 @@ config1(){
   test -n "$EXTRALIBS" && TOOLCHAIN_OPT+=" --extra-libs=\"-static-libstdc++ $EXTRALIBS\""
   echo INSTALL_DIR: $INSTALL_DIR
   is_libav || FEATURE_OPT+=" --disable-postproc"
-  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --enable-static --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
+  local CONFIGURE="configure --extra-version=avbuild --disable-doc ${DEBUG_OPT} $LIB_OPT --stl=c++_shared --enable-static --enable-runtime-cpudetect $FEATURE_OPT $TOOLCHAIN_OPT $USER_OPT"
   : ${NO_ENC=false}
     CONFIGURE+=" $DEC_OPT $DEMUX_OPT $ENC_OPT $MUX_OPT $FILTER_OPT $PROT_OPT"
   CONFIGURE=`trim2 $CONFIGURE`
